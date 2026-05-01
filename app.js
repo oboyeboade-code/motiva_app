@@ -6,7 +6,7 @@ const allBtns = document.querySelector(".actions")
 
 let newQuote = ""
 const toggleButtons = (disabled) => {
-    Array.from(allBtns.children).slice(1, 4).forEach(btn => {
+    Array.from(allBtns.children).slice(1, 2).forEach(btn => {
         btn.disabled = disabled;
         btn.style.opacity = disabled ? 0.5 : 1;
     });
@@ -122,7 +122,10 @@ const clearStorage = () => {
     addQuoteToList("All saved quotes have been cleared!")
 }
 
-window.onload = () => { showFavQuotes() }
+window.onload = () => {
+    showFavQuotes()
+    toggleButtons(true)
+}
 
 window.saveQuote = saveQuote;
 window.fetchQuote = fetchQuote;
