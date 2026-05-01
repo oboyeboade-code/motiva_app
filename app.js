@@ -100,6 +100,7 @@ const saveQuote = () => {
 }
 
 const showFavQuotes = () => {
+    toggleButtons(true)
     let savedQuotes = getStorage()
     clearPresentQoute()
 
@@ -112,6 +113,7 @@ const showFavQuotes = () => {
 }
 
 const clearStorage = () => {
+    toggleButtons(true)
     if (getStorage().length === 0) {
         clearPresentQoute()
         addQuoteToList("No quotes to clear!")
