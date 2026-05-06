@@ -124,6 +124,7 @@ const clearStorage = () => {
     addQuoteToList("All saved quotes have been cleared!")
 }
 
+toggleButtons(true)
 window.onload = () => {
     showFavQuotes()
     toggleButtons(true)
