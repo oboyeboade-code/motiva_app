@@ -2,15 +2,15 @@ import { ENV } from './config.js'
 
 const { QUOTES_API, API_KEY, TIMEOUT, STORAGE_KEY } = ENV
 const presentQuote = document.getElementById("presentQuote")
-const allBtns = document.querySelector(".actions")
+const saveBtn = document.querySelector(".actions button:nth-child(2)")
 
 let newQuote = ""
-const toggleButtons = (disabled) => {
-    Array.from(allBtns.children).slice(1, 2).forEach(btn => {
-        btn.disabled = disabled;
-        btn.style.opacity = disabled ? 0.5 : 1;
-    });
+const turnOffSaveBtn = (bool) => {
+    if (saveBtn.disabled === bool) return;
+    saveBtn.disabled = bool;
+    saveBtn.style.opacity = bool ? 0.5 : 1;
 }
+
 const getStorage = () => JSON.parse(localStorage.getItem(STORAGE_KEY)) || []
 const setStorage = (quotes) => localStorage.setItem(STORAGE_KEY, JSON.stringify(quotes))
 const clearPresentQoute = () => { presentQuote.innerHTML = "" }
@@ -45,9 +45,9 @@ const addQuoteToList = (text, removable = false)=> {
 }
 
 const fetchQuote = () => {
+    turnOffSaveBtn(true)
     clearPresentQoute()
     addQuoteToList("Loading...")
-    toggleButtons(true)
 
     const timeOutPromise = new Promise((_, reject) =>
         setTimeout(() => {
@@ -72,7 +72,7 @@ const fetchQuote = () => {
             addQuoteToList(error.message)
         })
         .finally(() => {
-            toggleButtons(false)
+            turnOffSaveBtn(false)
         })
 }
 
@@ -100,7 +100,7 @@ const saveQuote = () => {
 }
 
 const showFavQuotes = () => {
-    toggleButtons(true)
+    turnOffSaveBtn(true)
     let savedQuotes = getStorage()
     clearPresentQoute()
 
@@ -113,7 +113,7 @@ const showFavQuotes = () => {
 }
 
 const clearStorage = () => {
-    toggleButtons(true)
+    turnOffSaveBtn(true)
     if (getStorage().length === 0) {
         clearPresentQoute()
         addQuoteToList("No quotes to clear!")
@@ -124,10 +124,8 @@ const clearStorage = () => {
     addQuoteToList("All saved quotes have been cleared!")
 }
 
-toggleButtons(true)
 window.onload = () => {
     showFavQuotes()
-    toggleButtons(true)
 }
 
 window.saveQuote = saveQuote;
